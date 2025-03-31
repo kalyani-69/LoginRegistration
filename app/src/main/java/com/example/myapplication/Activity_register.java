@@ -58,6 +58,13 @@ public class Activity_register extends AppCompatActivity {
                     return;
                 }
 
+                // Check if username contains invalid characters
+                if (userName1.contains(".") || userName1.contains("#") || userName1.contains("$") || 
+                    userName1.contains("[") || userName1.contains("]")) {
+                    Toast.makeText(Activity_register.this, "Username cannot contain special characters", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 HelperClass helperClass = new HelperClass(fullname1, email1, password1, userName1);
 
                 reference.child(userName1).setValue(helperClass)
@@ -78,7 +85,7 @@ public class Activity_register extends AppCompatActivity {
             }
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.registration), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;

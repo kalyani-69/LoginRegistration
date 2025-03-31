@@ -92,6 +92,14 @@ public class Activity_login extends AppCompatActivity {
         String userName = loginUser.getText().toString().trim();
         String userPassword = loginPassword.getText().toString().trim();
 
+        // Check if username contains invalid characters
+        if (userName.contains(".") || userName.contains("#") || userName.contains("$") || 
+            userName.contains("[") || userName.contains("]")) {
+            loginUser.setError("Username cannot contain special characters");
+            loginUser.requestFocus();
+            return;
+        }
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(userName);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
