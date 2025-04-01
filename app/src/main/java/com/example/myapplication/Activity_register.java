@@ -65,7 +65,7 @@ public class Activity_register extends AppCompatActivity {
                     return;
                 }
 
-                HelperClass helperClass = new HelperClass(fullname1, email1, password1, userName1);
+                HelperClass helperClass = new HelperClass(email1,fullname1, userName1, password1);
 
                 reference.child(userName1).setValue(helperClass)
                         .addOnSuccessListener(aVoid -> {

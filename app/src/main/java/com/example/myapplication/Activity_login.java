@@ -100,6 +100,10 @@ public class Activity_login extends AppCompatActivity {
             return;
         }
 
+        if (userName.isEmpty() || userPassword.isEmpty()) {
+            Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show();
+            return;
+        }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(userName);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
