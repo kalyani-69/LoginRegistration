@@ -116,7 +116,11 @@ public class Activity_login extends AppCompatActivity {
                     if (Objects.equals(passwordFromDB, userPassword)) {
                         loginPassword.setError(null);
                         Toast.makeText(Activity_login.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Activity_login.this, MainActivity.class));
+                        //startActivity(new Intent(Activity_login.this, Activity_Dashboard.class));
+                        Intent intent = new Intent(Activity_login.this, Activity_Dashboard.class);
+                        intent.putExtra("username", userName); // passing username to dashboard
+                        startActivity(intent);
+                        finish(); // finish login activity to prevent going back
                     } else {
                         loginPassword.setError("Invalid Credentials");
                         loginPassword.requestFocus();

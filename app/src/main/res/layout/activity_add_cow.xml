@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addCowForm"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity_AddCow">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/cowName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cow Name" />
+
+        <EditText
+            android:id="@+id/cowColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cow Color" />
+
+        <EditText
+            android:id="@+id/pregnancyDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pregnancy Date"
+            android:focusable="false" />
+
+        <EditText
+            android:id="@+id/medicalHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Medical History" />
+
+        <EditText
+            android:id="@+id/milkProduction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Milk Production (L/day)"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/saveCowButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Cow" />
+    </LinearLayout>
+</ScrollView >

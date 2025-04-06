@@ -12,8 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
-
-
+        <activity
+            android:name=".Activity_Dashboard"
+            android:exported="false" />
+        <activity
+            android:name=".Activity_AddCow"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -29,7 +33,6 @@
         <activity
             android:name=".Activity_login"
             android:exported="false" />
-
     </application>
 
 </manifest>
