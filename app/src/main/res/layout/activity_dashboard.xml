@@ -8,6 +8,8 @@
     android:padding="16dp"
     android:orientation="vertical"
     tools:context=".Activity_Dashboard">
+
+    <!-- Welcome message -->
     <TextView
         android:id="@+id/dashboardWelcomeText"
         android:layout_width="wrap_content"
@@ -16,32 +18,40 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#333" />
+
+    <!-- Total cows -->
     <TextView
         android:id="@+id/totalCows"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Total Cows: 0"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
+    <!-- Average milk production -->
     <TextView
         android:id="@+id/avgMilkProduction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Avg Milk Production: 0L"
         android:textSize="16sp"
-        android:layout_marginBottom="12dp"/>
+        android:layout_marginBottom="12dp" />
 
+    <!-- Add Cow Button -->
     <Button
         android:id="@+id/addCowButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add New Cow" />
 
-    <ListView
-        android:id="@+id/cowListView"
+    <!-- RecyclerView for cow cards -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cowRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"/>
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 
 </LinearLayout>

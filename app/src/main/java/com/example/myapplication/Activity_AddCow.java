@@ -74,18 +74,13 @@ public class Activity_AddCow extends AppCompatActivity {
             finish();
             return;
         }
+
         cowRef = FirebaseDatabase.getInstance().getReference("farmers")
                 .child(currentUser.getUid())
                 .child("cows");
-
         currentUser = mAuth.getCurrentUser();
 
-        if (currentUser == null) {
-            Toast.makeText(this, "Please login again", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, Activity_login.class));
-            finish();
-            return;
-        }
+
         if (cowRef == null) {
             Toast.makeText(this, "Database reference is not initialized!", Toast.LENGTH_SHORT).show();
             return;
@@ -196,9 +191,10 @@ public class Activity_AddCow extends AppCompatActivity {
     }
     private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
-        new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-            pregnancyDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> pregnancyDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year),
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
     }
 
 //    private void uploadImageAndSaveCow(String name, String color, String pregDate, String history, double milk, String imageurl) {
