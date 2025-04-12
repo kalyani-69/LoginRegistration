@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,18 +15,18 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Activity_register extends AppCompatActivity {
+
     private EditText email, password, fullName, userName;
     private TextView txt_login;
     private FirebaseAuth mAuth;
-    private FirebaseDatabase database;
     private DatabaseReference reference;
     private Button btn_register;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,47 +41,55 @@ public class Activity_register extends AppCompatActivity {
         txt_login = findViewById(R.id.txt_login);
 
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        reference = database.getReference("users");
+        reference = FirebaseDatabase.getInstance().getReference("users");
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String fullname1 = fullName.getText().toString();
-                String email1 = email.getText().toString();
-                String password1 = password.getText().toString();
-                String userName1 = userName.getText().toString();
+                String fullNameStr = fullName.getText().toString().trim();
+                String emailStr = email.getText().toString().trim();
+                String passwordStr = password.getText().toString().trim();
+                String usernameStr = userName.getText().toString().trim();
 
-                if (fullname1.isEmpty() || email1.isEmpty() || password1.isEmpty() || userName1.isEmpty()) {
+                if (fullNameStr.isEmpty() || emailStr.isEmpty() || passwordStr.isEmpty() || usernameStr.isEmpty()) {
                     Toast.makeText(Activity_register.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Check if username contains invalid characters
-                if (userName1.contains(".") || userName1.contains("#") || userName1.contains("$") || 
-                    userName1.contains("[") || userName1.contains("]")) {
+                if (usernameStr.contains(".") || usernameStr.contains("#") || usernameStr.contains("$") ||
+                        usernameStr.contains("[") || usernameStr.contains("]")) {
                     Toast.makeText(Activity_register.this, "Username cannot contain special characters", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                HelperClass helperClass = new HelperClass(email1,fullname1, userName1, password1);
+                // Create user using Firebase Authentication
+                mAuth.createUserWithEmailAndPassword(emailStr, passwordStr)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                String uid = firebaseUser.getUid();
 
-                reference.child(userName1).setValue(helperClass)
-                        .addOnSuccessListener(aVoid -> {
-                            Toast.makeText(Activity_register.this, "You Have Signed Up Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(Activity_register.this, Activity_login.class));
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(Activity_register.this, "Sign Up Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                // Save additional user data to Realtime Database
+                                HelperClass helperClass = new HelperClass(emailStr, fullNameStr, usernameStr, ""); // don't store password
+                                reference.child(uid).setValue(helperClass)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(Activity_register.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(Activity_register.this, Activity_login.class));
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(Activity_register.this, "Database Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        });
+                            } else {
+                                Toast.makeText(Activity_register.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         });
             }
         });
 
-        txt_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Activity_register.this, Activity_login.class));
-            }
+        txt_login.setOnClickListener(view -> {
+            startActivity(new Intent(Activity_register.this, Activity_login.class));
+            finish();
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.registration), (v, insets) -> {
