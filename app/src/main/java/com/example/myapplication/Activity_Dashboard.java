@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;  // Import ArrayList
 import java.util.List;
 
-public class Activity_Dashboard extends AppCompatActivity {
+public class Activity_Dashboard extends AppCompatActivity implements CowAdapter.OnCowClickListener {
 
     private TextView welcomeText, totalCows, avgMilkProduction;
     private RecyclerView cowRecyclerView;
@@ -31,7 +31,7 @@ public class Activity_Dashboard extends AppCompatActivity {
     private FirebaseUser currentUser;
     private DatabaseReference cowRef;
     private CowAdapter cowAdapter;
-    private ArrayList<Cow> cowList;  // Use ArrayList instead of List
+    private ArrayList<Cow> cowList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +52,8 @@ public class Activity_Dashboard extends AppCompatActivity {
 
         // Set up RecyclerView
         cowRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        cowList = new ArrayList<>();  // Initialize as ArrayList
-        cowAdapter = new CowAdapter(this, cowList);
+        cowList = new ArrayList<>();
+        cowAdapter = new CowAdapter(this, cowList, this);  // Pass the Activity_Dashboard as the listener
         cowRecyclerView.setAdapter(cowAdapter);
 
         // Load cow data from Firebase
@@ -83,7 +83,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                     }
                 }
 
-                // Update UI with total cows and average milk production
                 cowAdapter.notifyDataSetChanged();
                 totalCows.setText("Total Cows: " + totalCowsCount);
                 if (totalCowsCount > 0) {
@@ -96,6 +95,34 @@ public class Activity_Dashboard extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(Activity_Dashboard.this, "Failed to load cow data", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onEditClick(Cow cow) {
+        // Start Activity_AddCow for editing the cow data
+        Intent intent = new Intent(Activity_Dashboard.this, Activity_AddCow.class);
+        intent.putExtra("cowId", cow.getCowId());
+        intent.putExtra("name", cow.getName());
+        intent.putExtra("color", cow.getColor());
+        intent.putExtra("pregnancyDate", cow.getPregnancyDate());
+        intent.putExtra("milkProduction", cow.getMilkProduction());
+        intent.putExtra("medicalHistory", cow.getMedicalHistory());
+        intent.putExtra("imageUrl", cow.getImageUrl());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDeleteClick(Cow cow) {
+        // Handle cow deletion
+        cowRef.child(cow.getCowId()).removeValue().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(Activity_Dashboard.this, "Cow deleted successfully", Toast.LENGTH_SHORT).show();
+                // No need to navigate elsewhere, just refresh the cow data
+                loadCowData();
+            } else {
+                Toast.makeText(Activity_Dashboard.this, "Failed to delete cow", Toast.LENGTH_SHORT).show();
             }
         });
     }
