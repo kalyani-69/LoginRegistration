@@ -30,7 +30,7 @@ public class Activity_login extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        loginEmail = findViewById(R.id.email);  // Use email input field
+        loginEmail = findViewById(R.id.email);
         loginPassword = findViewById(R.id.password);
         loginButton = findViewById(R.id.btn_login);
         signupRedirectText = findViewById(R.id.txt_register);
@@ -58,7 +58,7 @@ public class Activity_login extends AppCompatActivity {
                             if (user != null) {
                                 Toast.makeText(Activity_login.this, "Login successful!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Activity_login.this, Activity_Dashboard.class);
-                                intent.putExtra("userId", user.getUid());
+                                intent.putExtra("userId", user.getUid()); // Pass UID to Dashboard
                                 startActivity(intent);
                                 finish();
                             }
@@ -72,6 +72,7 @@ public class Activity_login extends AppCompatActivity {
             startActivity(new Intent(Activity_login.this, Activity_register.class));
         });
 
+        // Window insets for edge-to-edge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

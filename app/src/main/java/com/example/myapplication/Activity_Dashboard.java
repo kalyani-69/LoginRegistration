@@ -32,6 +32,7 @@ public class Activity_Dashboard extends AppCompatActivity implements CowAdapter.
     private DatabaseReference cowRef;
     private CowAdapter cowAdapter;
     private ArrayList<Cow> cowList;
+    private Button graphButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,8 @@ public class Activity_Dashboard extends AppCompatActivity implements CowAdapter.
         avgMilkProduction = findViewById(R.id.avgMilkProduction);
         addCowButton = findViewById(R.id.addCowButton);
         cowRecyclerView = findViewById(R.id.cowRecyclerView);
+        graphButton = findViewById(R.id.graphButton);
+
 
         // Set up Firebase Auth and Database Reference
         mAuth = FirebaseAuth.getInstance();
@@ -63,6 +66,14 @@ public class Activity_Dashboard extends AppCompatActivity implements CowAdapter.
         addCowButton.setOnClickListener(v -> {
             Intent intent = new Intent(Activity_Dashboard.this, Activity_AddCow.class);
             startActivity(intent);
+        });
+
+        graphButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Activity_Dashboard.this, WeeklyMilkRecordActivity.class);
+                startActivity(intent);
+            }
         });
     }
 

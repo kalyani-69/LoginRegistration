@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/dateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Select Date"
+        android:focusable="false"
+        android:inputType="none"
+        />
+
+    <EditText
+        android:id="@+id/milkLitersEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Milk in Liters"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:id="@+id/saveMilkRecordButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Milk Record"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>
