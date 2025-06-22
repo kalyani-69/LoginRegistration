@@ -60,7 +60,7 @@ public class GraphActivity extends AppCompatActivity {
                 }
 
                 BarDataSet dataSet = new BarDataSet(entries, "Milk Production (Liters)");
-                dataSet.setColor(getResources().getColor(R.color.purple_700));
+                dataSet.setColor(getResources().getColor(R.color.purple_200));
 
                 BarData barData = new BarData(dataSet);
                 barChart.setData(barData);
@@ -84,4 +84,3 @@ public class GraphActivity extends AppCompatActivity {
     }
 }
 
-}
